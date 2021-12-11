@@ -1,0 +1,9 @@
+{
+    "autoload": {
+        "psr-4": {
+            "AutoloadOne\\": "",
+            "App\\": "app/"
+        },
+        "classmap": ["helpers/"]
+    }   
+}
