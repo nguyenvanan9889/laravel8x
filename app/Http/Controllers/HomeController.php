@@ -21,10 +21,12 @@ class HomeController extends Controller
         $this->log = $log;
         $this->payment = $payment;
     }
+
     public function index(Request $request)
     {
-        
+        echo 'alo';
     }
+
     public function alo(Request $request)
     {
         $alo = 'alo';
@@ -38,13 +40,13 @@ class HomeController extends Controller
     {
         $news = \App\Models\News::find(1);
         $image = \App\Models\Image::find(1);
-        echo '<pre>'; var_dump($news->image, $image->imageable); die(); echo '</pre>';
+        echo '<pre>'; var_dump($news->image, $image->imageable); die();
     }
     public function morphOneToMany()
     {
         $news = \App\Models\News::find(1);
         $image = \App\Models\Image::find(1);
-        echo '<pre>'; var_dump($news->images, $image->imageable); die(); echo '</pre>';
+        echo '<pre>'; var_dump($news->images, $image->imageable); die();
     }
     public function morphManyToMany()
     {
@@ -95,7 +97,7 @@ class HomeController extends Controller
     }
     public function csrf(Request $request)
     {
-        echo '<pre>'; var_dump(csrf_token()); die(); echo '</pre>';
+        echo '<pre>'; var_dump(csrf_token()); die();
     }
     public function interface(Request $request)
     {
@@ -163,9 +165,9 @@ class HomeController extends Controller
         $validator = \Validator::make(\Request::all(), [
             'email' => [new \App\Rules\uniqueEmailCustom],
         ], [
-            
+
         ], [
-            
+
         ]);
         echo '<pre>'; var_dump($validator->errors()->first()); die(); echo '</pre>';
     }
@@ -193,6 +195,8 @@ class HomeController extends Controller
         if (\Request::isMethod('get')) {
             return view('validation', compact('request'));
         }
+        $remainAmountAfterDeposit = 10;
+        $remainAmountAfterFullPayment = 20;
         $validator = \Validator::make(\Request::all(), [
             'type' => ['required', 'regex:/[1,2,3]/', "wallet_balance:$remainAmountAfterDeposit, $remainAmountAfterFullPayment"]
         ], [
@@ -209,7 +213,7 @@ class HomeController extends Controller
     }
     public function bindingInterface(Request $request)
     {
-        echo '<pre>'; var_dump($this->log); die(); echo '</pre>';        
+        echo '<pre>'; var_dump($this->log); die(); echo '</pre>';
     }
     public function payment(Request $request)
     {

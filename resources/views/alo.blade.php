@@ -7,8 +7,8 @@
 </head>
 <body>
 	<h1>Alo</h1>
-	@section('content')
-		{{$alo}}
-	@show
+    <div>
+        <div></div>
+    </div>
 </body>
 </html>
