@@ -23,7 +23,7 @@ class HomeController extends Controller
     }
     public function index(Request $request)
     {
-        
+        echo 'blo';
     }
     public function alo(Request $request)
     {
