@@ -67,6 +67,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        // tna additional
+        public_path('images') => storage_path('app/images'),
     ],
 
 ];

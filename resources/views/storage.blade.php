@@ -6,6 +6,7 @@
 	<title>Storage</title>
 </head>
 <body>
-	<a href="{{asset('storage/example.txt')}}" title="File">File</a>
+	<a href="{{asset('storage/example.txt')}}" title="File">File</a><br>
+	<a href="{{asset('images/troll.png')}}" title="Image">Image</a>
 </body>
 </html>

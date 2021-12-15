@@ -24,13 +24,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        echo 'clo';
-    }
-
-    public function alo(Request $request)
-    {
-        $alo = 'alo';
-        return view('alo', compact('alo'));
+        echo url()-full();
     }
     public function blo(Request $request)
     {
@@ -56,6 +50,7 @@ class HomeController extends Controller
             echo '<pre>'; var_dump($value->pivot->toArray()); echo '</pre>';
         }
         echo '=========================<br>';
+        echo "=========================<br>";
         echo '<pre>'; var_dump($news->tags); echo '</pre>';
         echo '=========================<br>';
         echo '<pre>'; var_dump($tag->news); echo '</pre>';
@@ -79,6 +74,7 @@ class HomeController extends Controller
     }
     public function mail(Request $request)
     {
+        $this->alo($request);
         return view('notifications');
     }
     public function markAsReadNotification(Request $request)
@@ -124,7 +120,7 @@ class HomeController extends Controller
     }
     public function exception2(Request $request)
     {
-        throw new Exception("Error Processing Request", 1);
+        throw new \Exception("Error Processing Request", 1);
     }
     public function fullTextSearch(Request $request)
     {
@@ -156,6 +152,9 @@ class HomeController extends Controller
             'agree' => 'Điều khoản dịch vụ'
         ]);
         echo '<pre>'; var_dump($validator->errors()->first()); die(); echo '</pre>';
+    }
+    public function alo(){
+
     }
     public function validation2(Request $request)
     {
