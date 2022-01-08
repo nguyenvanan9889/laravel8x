@@ -24,10 +24,13 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        echo url()-full();
+        \Session::put('alo', 'blo');
+        echo \Session::get('alo');
+        return view('alo');
     }
     public function blo(Request $request)
     {
+        echo \Session::get('alo');
         return view('blo');
     }
     public function morphOneToOne()
@@ -58,6 +61,7 @@ class HomeController extends Controller
     public function notifications(Request $request)
     {
         $user = User::find(2);
+        $user->notify(new \App\Notifications\InvoicePaid(['title' => 'Alo', 'content' => 'Hello', 'reply' => 'Reply']));
         return view('notifications', compact('user'));
     }
     public function insertComment(Request $request)
@@ -71,11 +75,6 @@ class HomeController extends Controller
         ]);
         \App\Events\InsertComment::dispatch(Comment::find($commentId));
         return view('alo');
-    }
-    public function mail(Request $request)
-    {
-        $this->alo($request);
-        return view('notifications');
     }
     public function markAsReadNotification(Request $request)
     {
@@ -154,7 +153,10 @@ class HomeController extends Controller
         echo '<pre>'; var_dump($validator->errors()->first()); die(); echo '</pre>';
     }
     public function alo(){
-
+        $one = \App\Models\One::where('id', 1)->first();
+        $one->load('two');
+        dump($one->two);
+        return view('alo');
     }
     public function validation2(Request $request)
     {
@@ -218,7 +220,7 @@ class HomeController extends Controller
     {
         echo '<pre>'; var_dump($this->payment); die(); echo '</pre>';
     }
-    public function exceptoinUnauthorized(\Request $request)
+    public function exceptoinUnauthorized(Request $request)
     {
         \Auth::authenticate();
         echo '<pre>'; var_dump(__line__); die(); echo '</pre>';
@@ -249,20 +251,43 @@ class HomeController extends Controller
             })
         ); die(); echo '</pre>';
     }
-    public function mailNormal(\Request $request)
+    public function mailNormal()
     {
-        \Mail::html('Ahihi', function($message) {
-            $message->subject('Test mail trap')->to('alo@gmail.com');
+        /**
+         * This send below can't use queue
+         */
+        $to = 'nguyenvanan9889@gmail.com';
+        $subject = 'Mail normal';
+        $content = '<b style="color: red;">Wecome in the word</b>';
+        \Mail::html($content, function($mail) use ($subject, $to) {
+            $mail->subject($subject)->to($to);
         });
     }
-    public function mailQueueAuto(\Request $request)
+    public function mailQueueAuto(Request $request)
     {
-        \Mail::to('mailtrap@gmail.com')->queue(new \App\Mail\OrderShipped());
+        /**
+         * Require configuration queue before
+         */
+        $to = 'nguyenvanan9889@gmail.com';
+        $subject = 'Mail auto queue';
+        $content = '<p>Happy birthday to you</p>
+                    <p>Nobody like you</p>
+                    <p>You look like an animal</p>
+                    <p>Go back to the zoo</p>';
+        \Mail::to($to)->queue(new \App\Mail\Notification($subject, $content));
     }
-    public function mailQueueManual(\Request $request)
+    public function queue(Request $request)
     {
-        $order = \App\Models\Order::find(1);
-        \App\Jobs\SendMail::dispatch('nguyenvanan9889@gmail.com', new \App\Mail\OrderSuccess($order, 'Dispath job send mail order success', '<p>Bạn đã đặt hàng thành công <b>'.$order->code.'</b></p><p>Cảm ơn</p>'));
+        /**
+         * Require configuration queue before
+         */
+        $to = 'nguyenvanan9889@gmail.com';
+        $subject = 'Mail auto queue';
+        $content = '<p>Happy birthday to you</p>
+                    <p>Nobody like you</p>
+                    <p>You look like an animal</p>
+                    <p>Go back to the zoo</p>';
+        \App\Jobs\SendMail::dispatch($to, new \App\Mail\Notification($subject, $content));
     }
     public function collection()
     {
@@ -280,7 +305,7 @@ class HomeController extends Controller
         $news = \App\Models\News::all();
         dd($news->pluck('name', 'id'));
     }
-    public function collectionMacro(\Request $request)
+    public function collectionMacro(Request $request)
     {
         $collect = collect([1, 2, 3]);
         $collect2 = $collect->squared();
@@ -289,7 +314,75 @@ class HomeController extends Controller
     }
     public function storage()
     {
-        // \Storage::disk('public')->put('example.txt', 'Contents');
+        \Storage::put('app1.txt', '1');
+        \Storage::disk('local')->put('app1.txt', '1');
+        \storage::disk('public')->put('public1.txt', '1');
+        echo \Storage::url('app/app1.txt');
+        echo '<br>';
+        echo \Storage::disk('public')->url('public1.txt');
+        echo '<br>';
+        var_dump(file_exists(base_path().\Storage::url('app/app1.txt')));
+        var_dump(\Storage::disk('public')->size('public1.txt'));
         return view('storage');
+    }
+    public function storageFtp(Request $request)
+    {
+        \Storage::disk('ftp')->put('example.txt', 'Ahihi');
+    }
+    public function storageDownload(Request $request)
+    {
+        return \Storage::download('images/troll.png', 'filename-is-troll.png');
+    }
+    public function storageFileUpload(Request $request)
+    {
+        echo '<pre>'; var_dump($request->all()); die();
+    }
+    public function storageSaveFileUploadByUser(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            return view('upload_file');
+        }
+        $path = $request->file('file')->storeAs(
+            'avatars', 1
+        );
+        echo '<pre>'; var_dump($path); die();
+    }
+    public function httpClient(Request $request)
+    {
+        $response = \Http::withOptions(['verify' => false])->post(route('home').'/http-post-as-form-urlencode', [
+                'name' => 'an',
+                'age' => 32,
+            ]);
+        dd($response->body());
+    }
+    public function httpPostAsFormUrlendcode(Request $request)
+    {
+        echo '<pre>'; var_dump($request->all()); die();
+    }
+    public function translation()
+    {
+        \App::setlocale('vi');
+        echo __('tran.hello_my_name', ['name' => 'an']);
+        echo trans_choice('tran.apples', 1);
+        echo trans_choice('tran.apples', 2);
+    }
+    public function broadcast()
+    {
+        event(new \App\Events\MyEvent('hello world'));
+        return view('broadcast');
+    }
+    public function chatRealtimePusher(Request $request)
+    {
+        $username = $request->username;
+        $chatto = $request->chatto;
+        $content = $request->content;
+        if ($request->isMethod('get')) {
+            return view('chat_realtime_pusher', compact('username'));
+        }
+        \App\Events\Chat::dispatch($chatto, $content);
+        return response()->json([
+            'code' => 200,
+            'content' => $content,
+        ]);
     }
 }

@@ -6,20 +6,6 @@
 	<meta name="csrf-token" content="{{csrf_token()}}">
 </head>
 <body>
-	<h1>Alo thanh niên an</h1>
-    <div>
-        <div></div>
-    </div>
-	<div class="container">
-		<ul>
-			<li>
-				<span>
-					<i>
-						<a href=""></a>
-					</i>
-				</span>
-			</li>
-		</ul>
-	</div>
+	<a href="https://188.com.vn">188.com.vn</a>
 </body>
 </html>

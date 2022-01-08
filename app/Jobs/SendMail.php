@@ -12,21 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class SendMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $to;
-    protected $mailable;
-    protected $bcc;
-    protected $cc;
+    public $to;
+    public $mailable;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($to, \Illuminate\Mail\Mailable $mailable, $bcc = [], $cc = [])
+    public function __construct($to, $mailable)
     {
         $this->to = $to;
         $this->mailable = $mailable;
-        $this->bcc = $bcc;
-        $this->cc = $cc;
     }
 
     /**
@@ -36,13 +32,6 @@ class SendMail implements ShouldQueue
      */
     public function handle()
     {
-        $mail = \Mail::to($this->to);
-        if (count($this->bcc) > 0) {
-            $mail->bcc($this->bcc);
-        }
-        if (count($this->cc) > 0) {
-            $mail->cc($this->cc);
-        }
-        $mail->send($this->mailable);
+        \Mail::to($this->to)->send($this->mailable);
     }
 }

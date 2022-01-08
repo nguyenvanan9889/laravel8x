@@ -52,6 +52,19 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => '103.170.123.242',
+            'username' => 'userone',
+            'password' => 'y2GXLtnfG5',
+
+            // Optional FTP Settings...
+            // 'port' => 21,
+            'root' => '/domains/userone.com/public_html',
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
+        ],
     ],
 
     /*
@@ -68,6 +81,7 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
         // tna additional
+        public_path('app') => storage_path('app'),
         public_path('images') => storage_path('app/images'),
     ],
 

@@ -1,8 +1,8 @@
 @extends('master')
 @section('content')
-	<h1>Thông báo <span class="notification-count">({{$user->unreadNotifications->where('type', 'App\Notifications\CommentNotification')->count()}})</span></h1>
+	<h1>Thông báo <span class="notification-count">({{$user->unreadNotifications->count()}})</span></h1>
 	<ul>
-		@foreach($user->unreadNotifications->where('type', 'App\Notifications\CommentNotification') as $notify)
+		@foreach($user->unreadNotifications as $notify)
 			<li>
 				<div class="info">
 					<p>Tiêu đề: {{$notify->data['title']}}</p>

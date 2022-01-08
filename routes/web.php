@@ -17,13 +17,12 @@ Route::get('clear', function(){
     return response()->json(['message' => 'success'], 200);
 });
 
-Route::group(['middleware' => ['web', 'App\Http\Middleware\Test', 'throttle:limit'], 'namespace' => 'App\Http\Controllers'], function(){
+Route::group(['middleware' => ['web'], 'namespace' => 'App\Http\Controllers'], function(){
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('alo', 'HomeController@alo')->name('alo');
     Route::get('blo', 'HomeController@blo')->name('blo');
     Route::get('without-middleware', 'HomeController@blo')->withoutMiddleware('App\Http\Middleware\Test');
     Route::get('notifications', 'HomeController@notifications');
-    Route::get('mail', 'HomeController@mail')->name('mail');
     Route::get('mark-as-read-notification', 'HomeController@markAsReadNotification')->name('mark-as-read-notification');
     Route::get('insert-comment', 'HomeController@insertComment')->name('insert-comment');
     Route::get('sys-kpi-notification', 'HomeController@sysKpiNotification');
@@ -56,14 +55,21 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\Test', 'throttle:limi
     Route::get('voucher-binding-interface-based-course-controller', 'CourseController@apply');
     Route::get('serialize', 'HomeController@serialize');
     Route::get('contains', 'HomeController@contains');
-    Route::get('mail-normal', 'HomeController@mailTrap');
+    Route::get('mail-normal', 'HomeController@mailNormal');
     Route::get('mail-queue-auto', 'HomeController@mailQueueAuto');
-    Route::get('mail-queue-manual', 'HomeController@mailQueueManual');
+    Route::get('queue', 'HomeController@queue');
     Route::get('collection', 'HomeController@collection');
     Route::get('collection-macro', 'HomeController@collectionMacro');
     Route::get('storage', 'HomeController@storage');
+    Route::get('storage-ftp', 'HomeController@storageFtp');
+    Route::get('storage-download', 'HomeController@storageDownload');
+    Route::get('storage-file-upload', 'HomeController@storageFileUpload');
+    Route::post('storage-save-file-upload-by-user', 'HomeController@storageSaveFileUploadByUser');
+    Route::get('http-client', 'HomeController@httpClient');
+    Route::post('http-post-as-form-urlencode', 'HomeController@httpPostAsFormUrlendcode');
+    Route::get('translation', 'HomeController@translation');
+    Route::get('broadcast', 'HomeController@broadcast');
+    Route::match(['get', 'post'], 'chat-realtime-pusher', 'HomeController@chatRealtimePusher');
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Auth::routes();
