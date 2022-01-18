@@ -1,0 +1,22 @@
+{
+    "name": "annv/demo",
+    "description": "Annv demo package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "annv",
+            "email": "nguyenvanan9889@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Annv\\Demo\\Providers\\AnnvDemoPackage"
+            ],
+            "aliases": {}
+        }
+    }
+}
