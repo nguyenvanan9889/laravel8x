@@ -16,7 +16,8 @@ class HomeController extends Controller
     public $payment;
     public function __construct(PayInterface $pay, DbInterface $db, LogInterface $log, PaymentInterface $payment = null)
     {
-        $alo = 'clo';
+        $alo = 'alo';
+        $blo = 'blo';
         $this->pay = $pay;
         $this->db = $db;
         $this->log = $log;
