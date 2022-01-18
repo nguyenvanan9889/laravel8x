@@ -1,4 +1,21 @@
 <?php return array (
+  'annv/demo' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Annv\\Demo\\Providers\\DemoServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'barryvdh/laravel-ide-helper' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+    ),
+  ),
   'facade/ignition' => 
   array (
     'providers' => 
@@ -36,6 +53,13 @@
     'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    ),
+  ),
+  'laravel/ui' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Ui\\UiServiceProvider',
     ),
   ),
   'nesbot/carbon' => 

@@ -1,7 +1,11 @@
 <?php
-namespace Annv\Demo\Models;
+
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-class AnnvDemoPackage extends Model {
-	use HasFactory;
+
+class Benefit extends Model
+{
+    use HasFactory;
 }

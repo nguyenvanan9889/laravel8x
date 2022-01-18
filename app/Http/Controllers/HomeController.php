@@ -1,13 +1,13 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\CommentNotification;
-use App\Models\{Comment, User, Member};
+use App\Models\{Comment, Member};
 use App\Helpers\Pays\Contract\PayInterface;
 use App\Helpers\Dbs\Contract\DbInterface;
 use App\Services\Logs\LogInterface;
 use App\Services\Payment\Contract\PaymentInterface;
+use Illuminate\Support\Facades\RateLimiter;
 class HomeController extends Controller
 {
     public $pay;
@@ -16,23 +16,22 @@ class HomeController extends Controller
     public $payment;
     public function __construct(PayInterface $pay, DbInterface $db, LogInterface $log, PaymentInterface $payment = null)
     {
-        $blo = 'blo';
+        $alo = 'alo';
         $this->pay = $pay;
         $this->db = $db;
         $this->log = $log;
         $this->payment = $payment;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        \Session::put('alo', 'blo');
-        echo \Session::get('alo');
-        return view('alo');
+        $users = [['name' => 'An', 'age' => 33], ['name' => 'Huong', 'age' => 29]];
+        return view('alo', compact('users'));
     }
-    public function blo(Request $request)
+    public function blo()
     {
         echo \Session::get('alo');
-        return view('blo');
+                return view('blo');
     }
     public function morphOneToOne()
     {
@@ -61,9 +60,7 @@ class HomeController extends Controller
     }
     public function notifications(Request $request)
     {
-        $user = User::find(2);
-        $user->notify(new \App\Notifications\InvoicePaid(['title' => 'Alo', 'content' => 'Hello', 'reply' => 'Reply']));
-        return view('notifications', compact('user'));
+
     }
     public function insertComment(Request $request)
     {
@@ -74,12 +71,11 @@ class HomeController extends Controller
             'created_at' => new \DateTime,
             'updated_at' => new \DateTime,
         ]);
-        \App\Events\InsertComment::dispatch(Comment::find($commentId));
         return view('alo');
     }
     public function markAsReadNotification(Request $request)
     {
-        User::find(2)->unreadNotifications->where('id', $request->id)->markAsRead();
+        \App\Models\User::find(2)->unreadNotifications->where('id', $request->id)->markAsRead();
         return redirect()->back();
     }
     public function sysKpiNotification(Request $request)
@@ -89,7 +85,7 @@ class HomeController extends Controller
         $data->type = 'kpi_work_assign';
         $data->title = 'Admin vừa phân công việc';
         $data->content = 'Đơn hàng ABC trạng thái: đơn hàng mới, đơn hàng chờ đặt cọc';
-        $member->notify(new \App\Notifications\SysAdminNotification($data));
+        dd($data);
     }
     public function csrf(Request $request)
     {
@@ -97,15 +93,12 @@ class HomeController extends Controller
     }
     public function interface(Request $request)
     {
-        echo '<pre>'; var_dump($this->setting->name()); die(); echo '</pre>';
     }
     public function pay(Request $request, $type)
     {
-        echo '<pre>'; var_dump($this->pay); die(); echo '</pre>';
     }
     public function db()
     {
-        echo '<pre>'; var_dump($this->db->connect()); die(); echo '</pre>';
     }
     public function edit()
     {
@@ -114,8 +107,6 @@ class HomeController extends Controller
     }
     public function exception(Request $request)
     {
-        throw new \App\Exceptions\RegisterException("Dang ky bi loi roi", 400);
-        echo '<pre>'; var_dump(__line__); die(); echo '</pre>';
         return view('exception');
     }
     public function exception2(Request $request)
@@ -151,7 +142,6 @@ class HomeController extends Controller
         ], [
             'agree' => 'Điều khoản dịch vụ'
         ]);
-        echo '<pre>'; var_dump($validator->errors()->first()); die(); echo '</pre>';
     }
     public function alo(){
         $one = \App\Models\One::where('id', 1)->first();
@@ -171,7 +161,6 @@ class HomeController extends Controller
         ], [
 
         ]);
-        echo '<pre>'; var_dump($validator->errors()->first()); die(); echo '</pre>';
     }
     public function validation3(Request $request)
     {
@@ -190,7 +179,6 @@ class HomeController extends Controller
         ], [
             'amount' => 'Số tiền'
         ]);
-        echo '<pre>'; var_dump($validator->errors()->first()); die(); echo '</pre>';
     }
     public function validatorExtendsProvide(Request $request)
     {
@@ -215,16 +203,17 @@ class HomeController extends Controller
     }
     public function bindingInterface(Request $request)
     {
-        echo '<pre>'; var_dump($this->log); die(); echo '</pre>';
     }
     public function payment(Request $request)
     {
-        echo '<pre>'; var_dump($this->payment); die(); echo '</pre>';
     }
+
+    /**
+     * @throws AuthenticationException
+     */
     public function exceptoinUnauthorized(Request $request)
     {
         \Auth::authenticate();
-        echo '<pre>'; var_dump(__line__); die(); echo '</pre>';
     }
     public function serialize()
     {
@@ -245,12 +234,7 @@ class HomeController extends Controller
             $order->details->sum(function($v){
                 return $v->ratings->count() > 0 ? 1 : 0;
             })
-        ); die(); echo '</pre>';
-        echo '<pre>'; var_dump(
-            !$order->details->contains(function($v, $k){
-                return $v->ratings->count() > 0;
-            })
-        ); die(); echo '</pre>';
+        ); die();
     }
     public function mailNormal()
     {
@@ -369,14 +353,13 @@ class HomeController extends Controller
     }
     public function broadcast()
     {
-        event(new \App\Events\MyEvent('hello world'));
         return view('broadcast');
     }
     public function chatRealtimePusher(Request $request)
     {
         $username = $request->username;
         $chatto = $request->chatto;
-        $content = $request->content;
+        $content = $request->input('content');
         if ($request->isMethod('get')) {
             return view('chat_realtime_pusher', compact('username'));
         }
@@ -385,5 +368,26 @@ class HomeController extends Controller
             'code' => 200,
             'content' => $content,
         ]);
+    }
+    public function quicklyThrottleHttpRequest(Request $request)
+    {
+        return view('alo');
+    }
+    public function rateLimitHttpRequest(Request $request)
+    {
+        return view('alo');
+    }
+    public function rateLimitAction(Request $request)
+    {
+        /**
+         * method hit: +1 số lần thử
+         * first param: key hành động
+         * seconds param: số giây hủy throttle của rate limit
+         */
+        RateLimiter::hit('send-message:2', 10);
+        if (RateLimiter::tooManyAttempts('send-message:2', $perMinute = 5)) {
+            return 'Too many attempts!';
+        }
+        return view('alo');
     }
 }
