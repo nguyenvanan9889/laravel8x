@@ -18,6 +18,7 @@ class HomeController extends Controller
     {
         $alo = 'alo';
         $blo = 'blo';
+        $clo = 'clo';
         $this->pay = $pay;
         $this->db = $db;
         $this->log = $log;
