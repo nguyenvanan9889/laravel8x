@@ -70,6 +70,11 @@ Route::group(['middleware' => ['web'], 'namespace' => 'App\Http\Controllers'], f
     Route::get('translation', 'HomeController@translation');
     Route::get('broadcast', 'HomeController@broadcast');
     Route::match(['get', 'post'], 'chat-realtime-pusher', 'HomeController@chatRealtimePusher');
+    /**
+     * throttle:maximum number request,minutes*/
+    Route::get('quickly-throttle-http-request', 'HomeController@quicklyThrottleHttpRequest')->middleware('throttle:1,1');
+    Route::get('rate-limit-http-request', 'HomeController@rateLimitHttpRequest')->middleware('throttle:login');
+    Route::get('rate-limit-action', 'HomeController@rateLimitAction');
 });
 
 // Auth::routes();
