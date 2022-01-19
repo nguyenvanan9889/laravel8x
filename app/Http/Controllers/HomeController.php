@@ -25,6 +25,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
+        $name = 'an';
         \Session::put('alo', 'blo');
         echo \Session::get('alo');
         return view('alo');
@@ -376,7 +377,7 @@ class HomeController extends Controller
     {
         $username = $request->username;
         $chatto = $request->chatto;
-        $content = $request->content;
+        $content = $request->input('content');
         if ($request->isMethod('get')) {
             return view('chat_realtime_pusher', compact('username'));
         }
