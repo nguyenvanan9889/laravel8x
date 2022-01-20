@@ -25,8 +25,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users = [['name' => 'An', 'age' => 33], ['name' => 'Huong', 'age' => 29]];
-        return view('alo', compact('users'));
+        echo implode('-', [1, 2, 3]);
+        return view('alo');
     }
     public function blo()
     {
@@ -52,7 +52,7 @@ class HomeController extends Controller
         foreach ($news->tags as $key => $value) {
             echo '<pre>'; var_dump($value->pivot->toArray()); echo '</pre>';
         }
-        echo '=========================<br>';
+        echo "=========================<br>";
         echo "=========================<br>";
         echo '<pre>'; var_dump($news->tags); echo '</pre>';
         echo '=========================<br>';
