@@ -25,7 +25,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users = [['name' => 'An', 'age' => 33], ['name' => 'Huong', 'age' => 29]];
+        $file = 'an';
         return view('alo', compact('users'));
     }
     public function blo()
