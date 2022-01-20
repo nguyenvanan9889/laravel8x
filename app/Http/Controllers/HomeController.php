@@ -25,13 +25,8 @@ class HomeController extends Controller
 
     public function index()
     {
-<<<<<<< HEAD
-        $file = 'an';
-        return view('alo', compact('users'));
-=======
         echo implode('-', [1, 2, 3]);
         return view('alo');
->>>>>>> d492be26a1a4106da0c9e6f230c135fdbfc062cc
     }
     public function blo()
     {
