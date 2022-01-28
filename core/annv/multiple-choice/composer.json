@@ -1,0 +1,27 @@
+{
+    "name": "annv/multiple-choice",
+    "description": "Annv multiple choice packages",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "annv",
+            "email": "nguyenvanan9889@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Annv\\MultipleChoice\\": "src"
+        }
+    },
+    "extra": {
+		"laravel": {
+			"providers": [
+				"Annv\\MultipleChoice\\Providers\\MultipleChoiceServiceProvider"
+			],
+			"aliases": {}
+		}
+	}
+}

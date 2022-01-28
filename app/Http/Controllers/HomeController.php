@@ -25,13 +25,12 @@ class HomeController extends Controller
 
     public function index()
     {
-        echo implode('-', [1, 2, 3]);
         return view('alo');
     }
     public function blo()
     {
         echo \Session::get('alo');
-                return view('blo');
+        return view('blo');
     }
     public function morphOneToOne()
     {
@@ -144,9 +143,6 @@ class HomeController extends Controller
         ]);
     }
     public function alo(){
-        $one = \App\Models\One::where('id', 1)->first();
-        $one->load('two');
-        dump($one->two);
         return view('alo');
     }
     public function validation2(Request $request)
