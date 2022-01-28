@@ -9,6 +9,16 @@
     array (
     ),
   ),
+  'annv/multiple-choice' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Annv\\MultipleChoice\\Providers\\MultipleChoiceServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
   'barryvdh/laravel-ide-helper' => 
   array (
     'providers' => 

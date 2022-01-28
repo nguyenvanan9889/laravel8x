@@ -6,15 +6,17 @@
 	"license": "MIT",
 	"require": {
 		"php": "^7.3|^8.0",
-		"annv/demo": "dev-an2",
+		"ext-json": "*",
+		"annv/demo": "dev-an",
+		"annv/multiple-choice": "dev-an",
+		"annv/oop": "dev-an",
 		"fideloper/proxy": "^4.4",
 		"fruitcake/laravel-cors": "^2.0",
 		"guzzlehttp/guzzle": "^7.0.1",
 		"laravel/framework": "^8.40",
 		"laravel/tinker": "^2.5",
-		"laravel/ui": "3.2",
-        "ext-json": "*"
-    },
+		"laravel/ui": "3.2"
+	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.11",
 		"facade/ignition": "^2.5",
@@ -62,9 +64,17 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"repositories": [
-	  {
-	     "type": "path",
-	     "url": "./core/annv/demo"
-	  }
+		{
+		   "type": "path",
+		   "url": "./core/annv/demo"
+		},
+		{
+			"type": "path",
+			"url": "./core/annv/multiple-choice"
+		},
+		{
+			"type": "path",
+			"url": "./core/annv/oop"
+		}
 	]
 }

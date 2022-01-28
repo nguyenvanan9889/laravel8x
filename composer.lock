@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "15530f64c60cfbfbc593b35128ab8911",
+    "content-hash": "a2627b241041ac2efbbcba24e4fb8d4a",
     "packages": [
         {
             "name": "annv/demo",
-            "version": "dev-an2",
+            "version": "dev-an",
             "dist": {
                 "type": "path",
                 "url": "./core/annv/demo",
@@ -38,6 +38,70 @@
                 }
             ],
             "description": "Annv demo package",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "annv/multiple-choice",
+            "version": "dev-an",
+            "dist": {
+                "type": "path",
+                "url": "./core/annv/multiple-choice",
+                "reference": "87ba8c218729c1057f7c659ccbee7835c74b1a2d"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Annv\\MultipleChoice\\Providers\\MultipleChoiceServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Annv\\MultipleChoice\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "annv",
+                    "email": "nguyenvanan9889@gmail.com"
+                }
+            ],
+            "description": "Multiple choice",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "annv/oop",
+            "version": "dev-an",
+            "dist": {
+                "type": "path",
+                "url": "./core/annv/oop",
+                "reference": "641f8520448ab297ade503d0da2e0bb14aefda91"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Annv\\OOP\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "annv",
+                    "email": "nguyenvanan9889@gmail.com"
+                }
+            ],
+            "description": "Annv OOP",
             "transport-options": {
                 "relative": true
             }
@@ -9019,7 +9083,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "annv/demo": 20
+        "annv/demo": 20,
+        "annv/multiple-choice": 20,
+        "annv/oop": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
